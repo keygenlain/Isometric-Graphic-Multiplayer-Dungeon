@@ -34,13 +34,17 @@ A complex isometric engine for a MUD (Multi-User Dungeon) using SFML in C++.
 - Manage game versions
 - User-friendly interface
 
-#### 4. Editor
-- Visual level editor
-- Place and remove tiles
-- Multi-layer support
-- Save/load levels
-- Script attachment
-- Mouse-based tile placement
+#### 4. Construction Set (Editor)
+- **Morrowind-style construction set** for comprehensive world building
+- **Multi-mode editor**: Tile, Entity, Script, and Landscape modes
+- **Entity system**: NPCs, items, containers, lights, spawn points, triggers, doors, and more
+- **Object browser**: Browse and place 13+ entity types
+- **Property editor**: Configure entity properties (health, scripts, metadata)
+- **Script integration**: Attach papyrus-like scripts to entities
+- **Multiplayer support**: Mark entities for network synchronization
+- **Multi-layer editing**: Create complex 3D structures with Z-levels
+- **Save/load**: Separate tile and entity persistence
+- **Visual editing**: Mouse-based placement with isometric preview
 
 #### 5. Android Build
 - Secondary Android build support
@@ -124,15 +128,31 @@ Then extract the generated ZIP to removable media and run:
 - **Q/Page Up** - Move Up (climb)
 - **E/Page Down** - Move Down (descend)
 
-### Editor
-- **1-5** - Select tile type
+### Construction Set (Editor)
+**Mode Selection:**
+- **Toolbar** - Click mode buttons to switch between Tile/Entity/Script/Landscape
+
+**Tile Mode:**
+- **1-5** - Select tile type (Grass/Stone/Wood/Water/Sand)
 - **Left Click** - Place tile
 - **Right Click** - Remove tile
+
+**Entity Mode:**
+- **Object Browser** - Select entity type from left panel
+- **Left Click** - Place selected entity
+- **Right Click** - Select entity (shows in property editor)
+- **Delete** - Remove selected entity
+
+**Global:**
 - **Page Up/Down** - Change layer (Z-level)
-- **Ctrl+S** - Save level
-- **Ctrl+L** - Load level
-- **Ctrl+N** - New level
+- **Ctrl+S** - Save tiles
+- **Ctrl+L** - Load tiles
+- **Ctrl+E** - Save entities
+- **Ctrl+R** - Load entities
+- **Ctrl+N** - New level (clear all)
 - **ESC** - Exit
+
+For complete Construction Set documentation, see [Editor/CONSTRUCTION_SET_GUIDE.md](Editor/CONSTRUCTION_SET_GUIDE.md)
 
 ## Architecture
 
@@ -160,6 +180,9 @@ Then extract the generated ZIP to removable media and run:
 - `NetworkProtocol` - Client-server communication
 - `ScriptEngine` - Custom scripting system
 - `TileEditor` - Level editing functionality
+- `EntityManager` - Entity system for construction set
+- `Entity` - Game objects with properties and scripts
+- `UIPanel` - Construction set UI components
 
 ## Development
 
