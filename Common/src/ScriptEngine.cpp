@@ -144,11 +144,15 @@ void ScriptEngine::executeLine(const std::string& line) {
         value.erase(0, value.find_first_not_of(" \t"));
         value.erase(value.find_last_not_of(" \t") + 1);
         
-        // Simple integer assignment
-        ScriptVariable var;
-        var.type = ScriptVariable::Type::INT;
-        var.intValue = std::stoi(value);
-        setVariable(varName, var);
+        // Simple integer assignment with error handling
+        try {
+            ScriptVariable var;
+            var.type = ScriptVariable::Type::INT;
+            var.intValue = std::stoi(value);
+            setVariable(varName, var);
+        } catch (const std::exception& e) {
+            std::cerr << "Script error: Invalid integer value '" << value << "' for variable '" << varName << "'" << std::endl;
+        }
     }
     // More command parsing can be added here for:
     // - Conditional statements (if/else)
