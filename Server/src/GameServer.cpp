@@ -117,7 +117,8 @@ void GameServer::handleClient(sf::Uint32 clientId) {
 void GameServer::broadcastPacket(const sf::Packet& packet, sf::Uint32 excludeClient) {
     for (auto& client : clients) {
         if (client.first != excludeClient && client.second->socket) {
-            client.second->socket->send(packet);
+            sf::Packet packetCopy = packet;
+            client.second->socket->send(packetCopy);
         }
     }
 }

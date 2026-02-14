@@ -1,5 +1,6 @@
 #include "EditorApp.hpp"
 #include <iostream>
+#include <cmath>
 
 namespace IsometricMUD {
 
