@@ -1,0 +1,77 @@
+# Build directories
+build/
+build-*/
+cmake-build-*/
+out/
+
+# Compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.o
+*.obj
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+
+# Android
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+.gradle/
+local.properties
+*.iml
+.externalNativeBuild/
+.cxx/
+
+# Temporary files
+*.log
+*.tmp
+test_write.tmp
+
+# Generated files
+Makefile
+*.cmake
+
+# User data
+config/*.cfg
+saves/*.sav
+*.dat
+
+# Package builds
+Setup/build/
+*.zip
+*.tar.gz
+
+# Keep directory structure
+!.gitkeep

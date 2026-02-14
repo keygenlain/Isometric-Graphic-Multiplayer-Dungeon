@@ -1,0 +1,16 @@
+; Welcome Script
+; This script runs when a player first enters the game
+
+Event OnPlayerInit()
+    Print("=================================")
+    Print("Welcome to Isometric MUD!")
+    Print("=================================")
+    Print("")
+    Print("You find yourself in a mysterious dungeon...")
+    Print("Use WASD to move, Q/E to climb up and down")
+    Print("")
+EndEvent
+
+Event OnPlayerEnterRoom()
+    Print("You enter a new room...")
+EndEvent
