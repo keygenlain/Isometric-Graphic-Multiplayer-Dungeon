@@ -1,0 +1,63 @@
+; Example Door Script for Construction Set
+; Attach this to Door entities
+
+Event OnInit()
+    ; Initialize door
+    SetProperty("locked", false)
+    SetProperty("requires_key", "")
+    SetProperty("destination", "")
+    SetProperty("is_open", false)
+    Print("Door initialized")
+EndEvent
+
+Event OnActivate(player)
+    ; Called when player interacts with door
+    
+    if GetProperty("locked")
+        var requiredKey = GetProperty("requires_key")
+        if requiredKey != ""
+            if PlayerHasItem(player, requiredKey)
+                Print("You unlocked the door")
+                SetProperty("locked", false)
+                OpenDoor(player)
+            else
+                Print("This door is locked. You need: " + requiredKey)
+            endif
+        else
+            Print("This door is locked")
+        endif
+    else
+        OpenDoor(player)
+    endif
+EndEvent
+
+Function OpenDoor(player)
+    var destination = GetProperty("destination")
+    
+    if destination != ""
+        ; Teleport to destination
+        Print("Using door...")
+        TeleportToCell(player, destination)
+    else
+        ; Just open/close the door
+        var isOpen = GetProperty("is_open")
+        if isOpen
+            CloseDoor()
+        else
+            SetProperty("is_open", true)
+            PlaySound("door_open")
+            Print("Door opened")
+        endif
+    endif
+    
+    ; Sync door state in multiplayer
+    if IsMultiplayer()
+        SyncProperty("is_open", GetProperty("is_open"))
+    endif
+EndFunction
+
+Function CloseDoor()
+    SetProperty("is_open", false)
+    PlaySound("door_close")
+    Print("Door closed")
+EndFunction

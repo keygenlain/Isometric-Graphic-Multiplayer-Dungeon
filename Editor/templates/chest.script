@@ -1,0 +1,47 @@
+; Example Treasure Chest Script for Construction Set
+; Attach this to Container entities
+
+Event OnInit()
+    ; Initialize chest properties
+    SetProperty("locked", true)
+    SetProperty("requires_key", "TreasureKey")
+    SetProperty("opened", false)
+    Print("Treasure chest initialized")
+EndEvent
+
+Event OnActivate(player)
+    ; Called when player interacts with chest
+    
+    if GetProperty("opened")
+        Print("This chest is empty")
+        return
+    endif
+    
+    if GetProperty("locked")
+        if PlayerHasItem(player, GetProperty("requires_key"))
+            Print("You unlocked the chest!")
+            SetProperty("locked", false)
+            OpenChest(player)
+        else
+            Print("This chest is locked. You need a key.")
+        endif
+    else
+        OpenChest(player)
+    endif
+EndEvent
+
+Function OpenChest(player)
+    ; Give items to player
+    Print("You opened the treasure chest!")
+    
+    GiveItem(player, "Gold", 100)
+    GiveItem(player, "MagicSword", 1)
+    GiveItem(player, "HealthPotion", 3)
+    
+    SetProperty("opened", true)
+    
+    ; Sync to multiplayer (chest is now empty for all players)
+    if IsMultiplayer()
+        SyncProperty("opened", true)
+    endif
+EndFunction
