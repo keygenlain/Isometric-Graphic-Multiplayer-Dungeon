@@ -3,6 +3,7 @@ build/
 build-*/
 cmake-build-*/
 out/
+_codeql_build_dir/
 
 # Compiled binaries
 *.exe
@@ -23,6 +24,7 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+_codeql_detected_source_root
 
 # IDE files
 .vscode/
