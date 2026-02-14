@@ -70,15 +70,35 @@ void LauncherApp::update() {
 void LauncherApp::render() {
     window->clear(sf::Color(30, 30, 40));
     
-    // Draw title and options
-    sf::Text title;
-    title.setString("Isometric MUD Launcher");
-    title.setCharacterSize(30);
-    title.setFillColor(sf::Color::White);
-    title.setPosition(150, 50);
+    // Note: Text rendering requires a font file
+    // For a complete implementation, load a font with:
+    // if (font.loadFromFile("font.ttf")) {
+    //     sf::Text title("Isometric MUD Launcher", font, 30);
+    //     title.setFillColor(sf::Color::White);
+    //     title.setPosition(150, 50);
+    //     window->draw(title);
+    // }
     
-    // Create menu text without using font (will appear as rectangles, but structure is there)
-    // In a real implementation, you would load a font file
+    // For now, draw simple colored rectangles as placeholder UI
+    sf::RectangleShape titleBar(sf::Vector2f(500, 60));
+    titleBar.setPosition(50, 40);
+    titleBar.setFillColor(sf::Color(50, 50, 60));
+    window->draw(titleBar);
+    
+    sf::RectangleShape button1(sf::Vector2f(200, 40));
+    button1.setPosition(200, 150);
+    button1.setFillColor(sf::Color(70, 130, 70));
+    window->draw(button1);
+    
+    sf::RectangleShape button2(sf::Vector2f(200, 40));
+    button2.setPosition(200, 210);
+    button2.setFillColor(sf::Color(70, 70, 130));
+    window->draw(button2);
+    
+    sf::RectangleShape button3(sf::Vector2f(200, 40));
+    button3.setPosition(200, 270);
+    button3.setFillColor(sf::Color(130, 70, 70));
+    window->draw(button3);
     
     window->display();
 }

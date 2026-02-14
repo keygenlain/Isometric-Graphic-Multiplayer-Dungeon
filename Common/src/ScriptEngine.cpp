@@ -115,19 +115,46 @@ ScriptVariable ScriptEngine::getVariable(const std::string& name) const {
 }
 
 void ScriptEngine::executeLine(const std::string& line) {
-    // Simple command parsing
-    if (line.find("Print(") == 0) {
-        size_t start = line.find('"');
-        size_t end = line.rfind('"');
+    // Parse and execute script commands
+    std::string trimmed = line;
+    trimmed.erase(0, trimmed.find_first_not_of(" \t"));
+    trimmed.erase(trimmed.find_last_not_of(" \t") + 1);
+    
+    // Handle Print statements
+    if (trimmed.find("Print(") == 0) {
+        size_t start = trimmed.find('"');
+        size_t end = trimmed.rfind('"');
         if (start != std::string::npos && end != std::string::npos && start < end) {
-            std::string text = line.substr(start + 1, end - start - 1);
+            std::string text = trimmed.substr(start + 1, end - start - 1);
             ScriptVariable arg;
             arg.type = ScriptVariable::Type::STRING;
             arg.stringValue = text;
             executeFunction("Print", {arg});
         }
     }
-    // Add more command parsing as needed
+    // Handle variable assignments (e.g., "x = 5")
+    else if (trimmed.find('=') != std::string::npos) {
+        size_t eqPos = trimmed.find('=');
+        std::string varName = trimmed.substr(0, eqPos);
+        std::string value = trimmed.substr(eqPos + 1);
+        
+        // Trim whitespace
+        varName.erase(0, varName.find_first_not_of(" \t"));
+        varName.erase(varName.find_last_not_of(" \t") + 1);
+        value.erase(0, value.find_first_not_of(" \t"));
+        value.erase(value.find_last_not_of(" \t") + 1);
+        
+        // Simple integer assignment
+        ScriptVariable var;
+        var.type = ScriptVariable::Type::INT;
+        var.intValue = std::stoi(value);
+        setVariable(varName, var);
+    }
+    // More command parsing can be added here for:
+    // - Conditional statements (if/else)
+    // - Loops (while/for)
+    // - Function calls
+    // - Object interactions
 }
 
 } // namespace IsometricMUD
