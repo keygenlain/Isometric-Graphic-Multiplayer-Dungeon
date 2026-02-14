@@ -1,0 +1,12 @@
+; Treasure Chest Script
+; Attach to treasure chest tiles
+
+Event OnOpen()
+    Print("You open the treasure chest!")
+    Print("You found 100 gold coins!")
+    ; Add gold to player inventory
+EndEvent
+
+Event OnEmpty()
+    Print("The chest is empty.")
+EndEvent

@@ -1,0 +1,16 @@
+; Door Script Example
+; Attach this to door tiles
+
+Event OnInteract()
+    Print("You open the door...")
+    ; Door opens
+EndEvent
+
+Event OnClose()
+    Print("The door closes behind you.")
+EndEvent
+
+Function IsLocked()
+    ; Check if door is locked
+    ; Return true/false
+EndFunction
