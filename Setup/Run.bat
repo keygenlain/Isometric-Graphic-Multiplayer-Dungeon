@@ -53,6 +53,7 @@ if errorlevel 1 (
 REM Launch the game launcher
 if exist "%BIN_DIR%\Launcher.exe" (
     cd /d "%BIN_DIR%"
+    REM Using 'start' without /wait for detached execution - launcher runs independently
     start "" "Launcher.exe"
 ) else (
     echo ERROR: Launcher.exe not found in %BIN_DIR%
