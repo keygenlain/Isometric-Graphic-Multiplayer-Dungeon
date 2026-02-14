@@ -2,6 +2,8 @@ add_executable(Editor
     src/main.cpp
     src/EditorApp.cpp
     src/TileEditor.cpp
+    src/EntityManager.cpp
+    src/UIPanel.cpp
 )
 
 target_include_directories(Editor PRIVATE

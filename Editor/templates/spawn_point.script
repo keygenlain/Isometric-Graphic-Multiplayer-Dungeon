@@ -1,0 +1,60 @@
+; Example Spawn Point Script for Construction Set
+; Attach this to Spawn Point entities for multiplayer
+
+Event OnInit()
+    ; Configure spawn point
+    SetProperty("faction", "player")  ; player, enemy, neutral
+    SetProperty("respawn_time", 30.0) ; seconds
+    SetProperty("max_spawns", 4)      ; max players at this spawn
+    SetProperty("current_spawns", 0)
+    Print("Spawn point initialized")
+EndEvent
+
+Event OnPlayerSpawn(player)
+    ; Called when a player spawns here
+    var currentSpawns = GetProperty("current_spawns")
+    
+    if currentSpawns >= GetProperty("max_spawns")
+        ; Try alternate spawn point
+        return false
+    endif
+    
+    ; Spawn player at this location
+    SetPlayerPosition(player, GetPosition())
+    currentSpawns = currentSpawns + 1
+    SetProperty("current_spawns", currentSpawns)
+    
+    Print("Player spawned at location")
+    
+    ; Give starting equipment
+    GiveStartingEquipment(player)
+    
+    return true
+EndEvent
+
+Function GiveStartingEquipment(player)
+    ; Give new players basic equipment
+    GiveItem(player, "BasicSword", 1)
+    GiveItem(player, "LeatherArmor", 1)
+    GiveItem(player, "HealthPotion", 2)
+EndFunction
+
+Event OnPlayerDespawn(player)
+    ; Called when player leaves or dies
+    var currentSpawns = GetProperty("current_spawns")
+    if currentSpawns > 0
+        currentSpawns = currentSpawns - 1
+        SetProperty("current_spawns", currentSpawns)
+    endif
+EndEvent
+
+Event OnPlayerDeath(player)
+    ; Handle player death
+    OnPlayerDespawn(player)
+    
+    ; Schedule respawn
+    var respawnTime = GetProperty("respawn_time")
+    ScheduleRespawn(player, respawnTime)
+    
+    Print("Player will respawn in " + respawnTime + " seconds")
+EndEvent

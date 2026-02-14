@@ -1,0 +1,53 @@
+; Example NPC AI Script for Construction Set
+; Attach this to NPC entities for basic enemy behavior
+
+Event OnInit()
+    ; Called when NPC spawns
+    Print("Enemy NPC spawned")
+    SetProperty("health", 100)
+    SetProperty("damage", 10)
+    SetProperty("speed", 2.0)
+    SetProperty("aggressive", true)
+EndEvent
+
+Event OnPlayerEnter()
+    ; Called when player comes near
+    if GetProperty("aggressive")
+        Print("Enemy detected player!")
+        EngageTarget()
+    endif
+EndEvent
+
+Function EngageTarget()
+    ; Chase and attack player
+    MoveToTarget()
+    Attack()
+EndFunction
+
+Event OnDamaged(amount)
+    ; Called when NPC takes damage
+    var currentHealth = GetProperty("health")
+    currentHealth = currentHealth - amount
+    SetProperty("health", currentHealth)
+    
+    if currentHealth <= 0
+        OnDeath()
+    endif
+EndEvent
+
+Event OnDeath()
+    ; Called when NPC dies
+    Print("Enemy defeated!")
+    DropLoot()
+    Despawn(5.0)  ; Despawn after 5 seconds
+EndEvent
+
+Function DropLoot()
+    ; Drop random items
+    var goldAmount = RandomInt(10, 50)
+    SpawnItem("Gold", goldAmount, GetPosition())
+    
+    if RandomChance(0.3)  ; 30% chance
+        SpawnItem("HealthPotion", 1, GetPosition())
+    endif
+EndFunction

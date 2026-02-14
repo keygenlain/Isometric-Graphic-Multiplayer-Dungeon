@@ -1,0 +1,77 @@
+; Example Trigger Zone Script for Construction Set
+; Attach this to Trigger entities for area events
+
+Event OnInit()
+    ; Configure trigger zone
+    SetProperty("trigger_type", "zone")  ; zone, teleport, damage, quest
+    SetProperty("radius", 5.0)
+    SetProperty("repeatable", true)
+    SetProperty("cooldown", 0.0)
+    Print("Trigger zone initialized")
+EndEvent
+
+Event OnPlayerEnter(player)
+    ; Called when player enters trigger zone
+    
+    var triggerType = GetProperty("trigger_type")
+    
+    if triggerType == "zone"
+        OnZoneEnter(player)
+    elseif triggerType == "teleport"
+        OnTeleportEnter(player)
+    elseif triggerType == "damage"
+        OnDamageZoneEnter(player)
+    elseif triggerType == "quest"
+        OnQuestTrigger(player)
+    endif
+EndEvent
+
+Function OnZoneEnter(player)
+    ; Simple zone notification
+    Print("You entered: Dungeon Level 1")
+    ShowMessage(player, "Dungeon Level 1", 3.0)
+    
+    ; Change music or ambience
+    PlayAmbience("dungeon_ambient")
+EndFunction
+
+Function OnTeleportEnter(player)
+    ; Teleport player to another location
+    Print("Teleporting player...")
+    
+    var destinationX = GetProperty("dest_x")
+    var destinationY = GetProperty("dest_y")
+    var destinationZ = GetProperty("dest_z")
+    
+    TeleportPlayer(player, destinationX, destinationY, destinationZ)
+EndFunction
+
+Function OnDamageZoneEnter(player)
+    ; Damage player (lava, poison, etc.)
+    var damageAmount = GetProperty("damage_per_second")
+    DealDamage(player, damageAmount)
+    
+    Print("You're taking damage!")
+EndFunction
+
+Function OnQuestTrigger(player)
+    ; Trigger quest event
+    var questId = GetProperty("quest_id")
+    var questStage = GetProperty("quest_stage")
+    
+    if PlayerHasQuest(player, questId)
+        UpdateQuest(player, questId, questStage)
+        Print("Quest updated!")
+    endif
+EndFunction
+
+Event OnPlayerExit(player)
+    ; Called when player leaves trigger zone
+    Print("You left the trigger zone")
+    
+    var triggerType = GetProperty("trigger_type")
+    if triggerType == "damage"
+        ; Stop damage over time
+        StopContinuousDamage(player)
+    endif
+EndEvent
